@@ -4,13 +4,13 @@ motifidfea <- substring(splitted[,2], 1, 12)
 X1657val$motifid <- motifidfea
 
 motifidraw <- substring(rawdata$motifid, 4)
-raw6 <- rawdata %>% select("tunefamily", "songid", "description", "annotator", "motifclass")
-raw6 <- cbind(raw4, motifidraw)
+# raw6 <- rawdata %>% select("tunefamily", "songid", "description", "annotator", "motifclass")
+# raw6 <- cbind(raw4, motifidraw)
 
 raw4 <- rawdata %>% select("tunefamily", "description", "annotator")
 raw4 <- cbind(raw4, motifidraw)
 
-merged <- merge(raw4, X1657val, by.x="motifid", by.y="motifid")
+merged <- merge(raw4, X1657val, by.x="motifidraw", by.y="motifid")
 
 splitted <- t(sapply(strsplit(non2$X1,split="patmidi2/"), unlist))
 num <- as.numeric(substring(splitted[,2],1,4))
