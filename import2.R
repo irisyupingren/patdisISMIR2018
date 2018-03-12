@@ -1,0 +1,40 @@
+library(readr)
+non <- read_csv("Data/nonval.csv")
+non3 <- read_csv("Data/nonval3.csv")
+non4 <- read_csv("Data/nonval4.csv")
+non5 <- read_csv("Data/nonval5.csv")
+non2 <- read_csv("Data/nonval2.csv")
+
+ran <- read_csv("Data/ranval.csv")
+ran3 <- read_csv("Data/ran2val.csv")
+ran4 <- read_csv("Data/ran4val.csv")
+ran5 <- read_csv("Data/ran5val.csv")
+ran2 <- read_csv("Data/ran3val.csv")
+
+non2 <- read_csv("Data/nonpatmidi2 val.csv")
+non3 <- read_csv("Data/nonpatmidi3 val.csv")
+non4 <- read_csv("Data/nonpatmidi4 val.csv")
+non5 <- read_csv("Data/nonpatmidi5 val.csv")
+non6 <- read_csv("Data/nonpatmidi6 val.csv")
+ran2 <- read_csv("Data/ranpatmidi2 val.csv")
+ran3 <- read_csv("Data/ranpatmidi3 val.csv")
+ran4 <- read_csv("Data/ranpatmidi4 val.csv")
+ran5 <- read_csv("Data/ranpatmidi5 val.csv")
+ran6 <- read_csv("Data/ranpatmidi6 val.csv")
+
+scfp <- read_csv("Data/scfpvalue.csv")
+siaf1 <- read_csv("Data/siaf1value.csv")
+siap <- read_csv("Data/siapvalue.csv")
+siar <- read_csv("Data/siarvalue.csv")
+vm2 <- read_csv("Data/vm2values.csv")
+vm <- read_csv("Data/vmval.csv")
+mp <- read_csv("Data/mpvalue.csv")
+
+X1657val <- read_csv("Data/1657val.csv")
+
+temp = list.files(path = "./Data/COSIAPeter", pattern="*.csv",full.names = T)
+COSIA = lapply(temp, read.csv)
+
+patminr <- read_csv("Data/PatMinr4val.csv")
+
+rawdata <- read_csv("Data/MTC-ANN-motifs.csv")
