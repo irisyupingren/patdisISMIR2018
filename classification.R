@@ -2,6 +2,7 @@ library(mlbench)
 library(caret)
 library(glue)
 control <- trainControl(method="repeatedcv", number=10, repeats=3)
+control <- trainControl(method="repeatedcv", summaryFunction = twoClassSummary, classProbs = T, savePredictions = T, number=10, repeats=3)
 
 classifygroup <- function(groupfile, control, expnum){
   colnames(groupfile)[1] <- "class"
@@ -10,8 +11,9 @@ classifygroup <- function(groupfile, control, expnum){
   
   set.seed(7)
   print("starting lda")
+  tryCatch({
   modellda <- train(class~., data=groupfile, method="lda", trControl=control)
-  saveRDS(modellda,file = glue("modellda{expnum}.rds"))
+  saveRDS(modellda,file = glue("modellda{expnum}.rds"))}, error=function(e) print("lda error"))
   
   print("starting nb")
   modelnb <- train(class~., data=groupfile, method = 'nb', trControl=control)
@@ -31,6 +33,44 @@ classifygroup <- function(groupfile, control, expnum){
   
   print("starting rf")
   modelrf <- train(class~., data=groupfile, method="rf", trControl=control)
+  saveRDS(modelrf,file = glue("modelrf{expnum}.rds"))
+  
+  caresults <- resamples(list(NB=modelnb, LVQ=modelLvq, GBM=modelGbm, SVM=modelSvm,
+                              LDA=modellda, RF=modelrf))
+  # caresults <- resamples(list(LVQ=modelLvq, GBM=modelGbm, SVM=modelSvm,
+  #                             RF=modelrf))
+  return(caresults)
+}
+
+classifygrouppreprop <- function(groupfile, control, expnum){
+  colnames(groupfile)[1] <- "class"
+  groupfile$class <- as.factor(groupfile$class)
+  levels(groupfile$class) <- make.names(levels(factor(groupfile$class)))
+  
+  set.seed(7)
+  print("starting lda")
+  tryCatch({
+  modellda <- train(class~., data=groupfile, method="lda", trControl=control, preProc=c("center", "scale"))
+  saveRDS(modellda,file = glue("modellda{expnum}.rds"))}, error=function(e) print("lda error"))
+  
+  print("starting nb")
+  modelnb <- train(class~., data=groupfile, method = 'nb', trControl=control, preProc=c("center", "scale"))
+  saveRDS(modelnb,file = glue("modelnb{expnum}.rds"))
+  
+  print("starting lvq")
+  modelLvq <- train(class~., data=groupfile, method="lvq", trControl=control, preProc=c("center", "scale"))
+  saveRDS(modelLvq,file = glue("modellvq{expnum}.rds"))
+  
+  print("starting gbm")
+  modelGbm <- train(class~., data=groupfile, method="gbm", trControl=control, verbose=FALSE, preProc=c("center", "scale"))
+  saveRDS(modelGbm,file = glue("modelgbm{expnum}.rds"))
+  
+  print("starting svm")
+  modelSvm <- train(class~., data=groupfile, method="svmRadial", trControl=control, preProc=c("center", "scale"))
+  saveRDS(modelSvm,file = glue("modelsvm{expnum}.rds"))
+  
+  print("starting rf")
+  modelrf <- train(class~., data=groupfile, method="rf", trControl=control, preProc=c("center", "scale"))
   saveRDS(modelrf,file = glue("modelrf{expnum}.rds"))
   
   caresults <- resamples(list(NB=modelnb, LVQ=modelLvq, GBM=modelGbm, SVM=modelSvm,
@@ -136,10 +176,12 @@ saveRDS(ca355results, file="ca355results2.rds")
 # capca3results <- readRDS("capca3results.rds")
 # bwplot(cap)
 
-cacoorpca2results <- classify4group(groupcoor2pca, control,"groupcoor2pca")
+cacoorpca2results <- classifygroup(groupcoor2pca, control,"groupcoor2pca")
 saveRDS(cacoorpca2results, file="cacoorpca2results2.rds")
+cacoorpca2resultsprep <- classifygrouppreprop(groupcoor2pca, control,"groupcoor2pcaprep")
+saveRDS(cacoorpca2resultsprep, file="cacoorpca2results2prep.rds")
 # 
-cacoorpca3results <- classify4group(groupcoor3pca, control,"groupcoor3pca")
+cacoorpca3results <- classifygroup(groupcoor3pca, control,"groupcoor3pca")
 saveRDS(cacoorpca3results, file="cacoorpca3results2.rds")
 # 
 # cacoorpca4results <- classify4group(group4pca, control,"groupcoor4pca")
