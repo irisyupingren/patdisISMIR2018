@@ -10,8 +10,8 @@ pca355l = as.data.frame(cbind(group355$id, pca355$x) )
 pca2l = as.data.frame(cbind(group2$`group2$id`, pca2$x) )
 pca3l = as.data.frame(cbind(group3$`group3$id`, pca3$x) )
 
-pcanon = prcomp(groupnon[2:65], scale. = T)
-pcaran = prcomp(groupran[2:67], scale. = T)
+pcanon = prcomp(non1657, scale. = T)
+# pcaran = prcomp(groupran[2:67], scale. = T)
 pcaall = prcomp(groupall[2:66], scale. = T)
 pca4 = prcomp(group4[2:67], scale. = T)
 # pca300 = prcomp(group300[2:66], scale. = T)
@@ -43,8 +43,8 @@ setdiff(colnames(vm24pca), colnames(X1657val4pca))
 common <- intersect(colnames(vm24pca), colnames(X1657val4pca))  
 vm24pca <- vm24pca[, common]
 X1657val4pca <-X1657val4pca[,common] 
-ran4pca <- ran[, common]
-non4pca <- non[, common]
+# ran4pca <- ran[, common]
+non4pca <- non1657[, common]
 mp4pca  <- mp[,common] 
 scfp4pca <- scfp[,common] 
 siaf14pca <- siaf1[,common] 
@@ -56,7 +56,7 @@ pcapat <- prcomp(X1657val4pca, scale. = T)
 pcavm <- prcomp(vm24pca, scale. = T)
 
 coorvm2 <- as.data.frame(scale(vm24pca, pcapat$center, pcapat$scale) %*% pcapat$rotation)
-coorran <- as.data.frame(scale(ran4pca, pcapat$center, pcapat$scale) %*% pcapat$rotation)
+# coorran <- as.data.frame(scale(ran4pca, pcapat$center, pcapat$scale) %*% pcapat$rotation)
 coornon <- as.data.frame(scale(non4pca, pcapat$center, pcapat$scale) %*% pcapat$rotation)
 coormp <- as.data.frame(scale(mp4pca, pcapat$center, pcapat$scale) %*% pcapat$rotation)
 coorsc <- as.data.frame(scale(scfp4pca, pcapat$center, pcapat$scale) %*% pcapat$rotation)
