@@ -14,7 +14,7 @@ classifygroup <- function(groupfile, control, expnum){
   saveRDS(modellda,file = glue("modellda{expnum}.rds"))
   
   print("starting nb")
-  modellda <- train(class~., data=groupfile, method = 'nb', trControl=control)
+  modelnb <- train(class~., data=groupfile, method = 'nb', trControl=control)
   saveRDS(modellda,file = glue("modelnb{expnum}.rds"))
   
   print("starting lvq")
@@ -33,7 +33,7 @@ classifygroup <- function(groupfile, control, expnum){
   modelrf <- train(class~., data=groupfile, method="rf", trControl=control)
   saveRDS(modelrf,file = glue("modelrf{expnum}.rds"))
   
-  caresults <- resamples(list(LVQ=modelLvq, GBM=modelGbm, SVM=modelSvm,
+  caresults <- resamples(list(NB=modelnb, LVQ=modelLvq, GBM=modelGbm, SVM=modelSvm,
                               LDA=modellda, RF=modelrf))
   # caresults <- resamples(list(LVQ=modelLvq, GBM=modelGbm, SVM=modelSvm,
   #                             RF=modelrf))
