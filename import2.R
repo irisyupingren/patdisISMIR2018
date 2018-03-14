@@ -32,9 +32,9 @@ mp <- read_csv("Data/mpvalue.csv")
 
 X1657val <- read_csv("Data/1657val.csv")
 
-temp = list.files(path = "./Data/COSIAPeter", pattern="*.csv",full.names = T)
-COSIA = lapply(temp, read.csv)
-
-patminr <- read_csv("Data/PatMinr4val.csv")
-
-rawdata <- read_csv("Data/MTC-ANN-motifs.csv")
+# temp = list.files(path = "./Data/COSIAPeter", pattern="*.csv",full.names = T)
+# COSIA = lapply(temp, read.csv)
+# 
+# patminr <- read_csv("Data/PatMinr4val.csv")
+# 
+# rawdata <- read_csv("Data/MTC-ANN-motifs.csv")
