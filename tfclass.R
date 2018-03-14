@@ -58,7 +58,7 @@ classifygroup <- function(groupfile, control, expnum){
 }
 
 classify4group <- function(groupfile, control, expnum){
-  colnames(groupfile)[64] <- "class"
+  colnames(groupfile)[65] <- "class"
   groupfile$class <- as.factor(groupfile$class)
   levels(groupfile$class) <- make.names(levels(factor(groupfile$class)))
   
@@ -85,6 +85,46 @@ classify4group <- function(groupfile, control, expnum){
   return(caresults)
 }
 
+classify3desgroup <- function(groupfile, control, expnum){
+  colnames(groupfile)[65] <- "class"
+  groupfile$class <- as.factor(groupfile$class)
+  levels(groupfile$class) <- make.names(levels(factor(groupfile$class)))
+  
+  print("starting gbm")
+  modelGbm <- train(class~., data=groupfile, method="gbm", trControl=control, verbose=FALSE)
+  saveRDS(modelGbm,file = glue("modelgbm{expnum}.rds"))
+  
+  print("starting svm")
+  modelSvm <- train(class~., data=groupfile, method="svmRadial", trControl=control)
+  saveRDS(modelSvm,file = glue("modelsvm{expnum}.rds"))
+  
+  print("starting rf")
+  modelrf <- train(class~., data=groupfile, method="rf", trControl=control)
+  saveRDS(modelrf,file = glue("modelrf{expnum}.rds"))
+  
+  caresults <- resamples(list( GBM=modelGbm, SVM=modelSvm,
+                              RF=modelrf))
+  return(caresults)
+}
+
+classify2desgroup <- function(groupfile, control, expnum){
+  colnames(groupfile)[65] <- "class"
+  groupfile$class <- as.factor(groupfile$class)
+  levels(groupfile$class) <- make.names(levels(factor(groupfile$class)))
+  
+  print("starting svm")
+  modelSvm <- train(class~., data=groupfile, method="svmRadial", trControl=control)
+  saveRDS(modelSvm,file = glue("modelsvm{expnum}.rds"))
+  
+  print("starting rf")
+  modelrf <- train(class~., data=groupfile, method="rf", trControl=control)
+  saveRDS(modelrf,file = glue("modelrf{expnum}.rds"))
+  
+  caresults <- resamples(list(SVM=modelSvm,
+                               RF=modelrf))
+  return(caresults)
+}
+
 selemerge <- selemergedjsym(merged)
 seleranmerge <- selemergedjsym(ran3merged)
 selenonmerge <- selemergedjsym(nonmerged)
@@ -99,6 +139,7 @@ saveRDS(tfnonnresults, file = "tfnonresults.rds")
 desresults <- classify4group(selemerge, control, "des")
 saveRDS(desresults, file = "desresults.rds")
 desranresults <- classify4group(seleranmerge, control, "desran")
+desranresults <- classify3desgroup(seleranmerge, control, "desran")
 saveRDS(desranresults, file = "desranresults.rds")
 desnonresults <- classify4group(selenonmerge, control,"desnon")
 saveRDS(desnonresults, file = "desnonresults.rds")
