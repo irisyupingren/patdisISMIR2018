@@ -17,7 +17,7 @@ classifygroup <- function(groupfile, control, expnum){
   
   print("starting nb")
   modelnb <- train(class~., data=groupfile, method = 'nb', trControl=control)
-  saveRDS(modellda,file = glue("modelnb{expnum}.rds"))
+  saveRDS(modelnb,file = glue("modelnb{expnum}.rds"))
   
   print("starting lvq")
   modelLvq <- train(class~., data=groupfile, method="lvq", trControl=control)
@@ -180,7 +180,14 @@ cacoorpca2results <- classifygroup(groupcoor2pca, control,"groupcoor2pca")
 saveRDS(cacoorpca2results, file="cacoorpca2results2.rds")
 cacoorpca2resultsprep <- classifygrouppreprop(groupcoor2pca, control,"groupcoor2pcaprep")
 saveRDS(cacoorpca2resultsprep, file="cacoorpca2results2prep.rds")
-# 
+
+cacoorpca2results <- resamples(list(NB=modelnb, LVQ=modelLvq, GBM=modelGbm, SVM=modelSvm,RF=modelrf))
+modelnb <- readRDS("modelnbgroupcoor2pca.rds")
+modelLvq <- readRDS("modellvqgroupcoor2pca.rds")
+modelGbm <- readRDS("modelgbmgroupcoor2pca.rds")
+modelSvm <- readRDS("modelsvmgroupcoor2pca.rds")
+modelrf <- readRDS("modelrfgroupcoor2pca.rds")
+
 cacoorpca3results <- classifygroup(groupcoor3pca, control,"groupcoor3pca")
 saveRDS(cacoorpca3results, file="cacoorpca3results2.rds")
 # 
