@@ -18,4 +18,12 @@ title(naming)
 return(boruta.groupfile)
 }
 
-anaboruta(group3)
+borutagroup2 <- boruta.group2
+borutagroup3 <- anaboruta(group3)
+borutagroupalg335 <- anaboruta(groupalg355)
+borutagroup335 <- anaboruta(group355)
+
+borutapcagroup2 <- anaboruta(groupcoor2pca)
+borutapcagroup3 <- anaboruta(groupcoor3pca)
+
+save(borutagroup2, borutagroup3, borutagroupalg335, borutagroup335, borutapcagroup2, borutapcagroup3, file = "borutagroupresults.RData")
