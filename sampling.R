@@ -42,6 +42,7 @@ non1657 <- non1657[,common]
 
 # newpat1657 <- bind_rows(alg1657, non1657, ran1657, X1657val , .id="id")
 newpat1657 <- bind_rows(alg1657, non1657, pat1657, .id="id")
+group2 <- bind_rows(non1657, pat1657, .id="id")
 group3 <- newpat1657
 
 # selepat1657 <- selepatjsym(newpat1657)

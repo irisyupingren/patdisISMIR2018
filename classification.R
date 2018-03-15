@@ -182,8 +182,11 @@ classify3group <- function(groupfile, control, expnum){
 caalgresults <- classifygroup(groupalgsample, control, "alg")
 saveRDS(caalgresults, file="caalgresults.rds")
 
-# ca2results <- classifygroup(group2, control,"group2")
-# saveRDS(ca2results, file="ca2results.rds")
+ca2results <- classifygroup(group2, control,"group2")
+saveRDS(ca2results, file="ca2results.rds")
+
+ca2resultsprepctrlpca <- classifygrouppreproppca(group2, control,"group2prepctrlpca")
+saveRDS(ca2resultsprepctrlpca, file="ca2resultsprepctrlpca.rds")
 
 ca3results <- classifygroup(group3,control, "group3")
 saveRDS(ca3results, file="ca3results2.rds")
