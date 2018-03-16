@@ -1,7 +1,7 @@
 library(Boruta)
 set.seed(123)
 
-anaboruta <- function(groupfile, naming){
+anaboruta <- function(groupfile){
 colnames(groupfile)[1] <- "class"
 groupfile$class <- as.factor(groupfile$class)
 levels(groupfile$class) <- make.names(levels(factor(groupfile$class)))
@@ -14,7 +14,7 @@ names(lz) <- colnames(boruta.groupfile$ImpHistory)
 Labels <- sort(sapply(lz,median))
 axis(side = 1,las=2,labels = names(Labels),
      at = 1:ncol(boruta.groupfile$ImpHistory), cex.axis = 0.7)
-title(naming)
+# title(naming)
 return(boruta.groupfile)
 }
 
