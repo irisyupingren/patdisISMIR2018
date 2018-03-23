@@ -11,21 +11,20 @@ colnames(evalmatrix)<-c(names(res1[1:11]))
 rownames(evalmatrix)<-c("NB", "LVQ", "GBM","SVM","LDA","RF")
 evalmatrix <- as.data.frame(evalmatrix)
 
-
-p <- ggplot(data=evalmatrix, aes(x = species_id, y = weight)) + 
-  geom_boxplot()
-print(p)
-
-library(colorspace) # get nice colors
-m <- rep((1:6), each=1)
-mcol <- rev(rainbow_hcl(6))[as.numeric(m)]
-MASS::parcoord(evalmatrix, col=mcol, var.label = TRUE, lwd = 2)
-
-dev.off()
-nn <- ncol(evalmatrix)
-matplot(t(evalmatrix), type='b', lty = 'solid',axes=F)
-legend("top", colnames(evalmatrix), col=seq_len(nn), cex=0.8, fill=seq_len(nn), legend=c("NB", "LVQ", "GBM","SVM","LDA","RF"))
-axis(1, at = 1:11, labels =names(res1[1:11]), cex.axis = 0.7)
-axis(2)
-
 print(xtable(as.matrix(colMeans(ca2resultsprepctrl$values[2:67])), type = "latex"), file = "filename2.tex")
+print(xtable(as.matrix(evalmatrix), type = "latex", file = "filename2.tex"))
+
+print(xtable(as.matrix(cmrfgroup2newdata$table), type = "latex", file = "filename2.tex"))
+print(xtable(as.matrix(cmrfgroup355newdata$table), type = "latex"))
+      
+print(xtable(as.matrix(cmrfgroup3newdata$table), type = "latex"))
+
+cm <- cmrfgroup3newdata$table
+colnames(cm)<-c("Algorithms", "Nonpatterns", "AnnoPatterns")
+rownames(cm)<-c("Algorithms", "Nonpatterns", "AnnoPatterns")
+print(xtable(as.matrix(cm, type = "latex")))
+      
+cm <- cmrfgroup355newdata$table
+colnames(cm)<-c("SIAF1", "SIAP", "SIAR", "VM2", "VM", "SC", "SIACFP", "Non", "Anno")
+rownames(cm)<-c("SIAF1", "SIAP", "SIAR", "VM2", "VM", "SC", "SIACFP", "Non", "Anno")
+print(xtable(as.matrix(cm, type = "latex")))

@@ -2,10 +2,9 @@ library(mlbench)
 library(caret)
 library(glue)
 control <- trainControl(method="repeatedcv", number=10, repeats=3)
-control <- trainControl(method="repeatedcv", summaryFunction = twoClassSummary, classProbs = T, savePredictions = T, number=10, repeats=3)
-control <- trainControl(method="repeatedcv", verboseIter = TRUE, summaryFunction = multiClassSummary, classProbs = T, savePredictions = T, number=10, repeats=3)
-control <- trainControl(method="repeatedcv", preProcOptions = list(thresh=0.8), verboseIter = TRUE, summaryFunction = multiClassSummary, classProbs = T, savePredictions = T, number=10, repeats=3)
-
+control <- trainControl(method="repeatedcv", summaryFunction = twoClassSummary, classProbs = T, number=10, repeats=3)
+control <- trainControl(method="repeatedcv", verboseIter = T, summaryFunction = multiClassSummary, classProbs = T, savePredictions = T, number=10, repeats=3)
+control <- trainControl(method="repeatedcv", summaryFunction = multiClassSummary, classProbs = T, savePredictions = T, number=10, repeats=3)
 
 
 classifygroup <- function(groupfile, control, expnum){
@@ -21,7 +20,7 @@ classifygroup <- function(groupfile, control, expnum){
   
   print("starting nb")
   modelnb <- train(class~., data=groupfile, method = 'nb', trControl=control)
-  saveRDS(modellda,file = glue("modelnb{expnum}.rds"))
+  saveRDS(modelnb,file = glue("modelnb{expnum}.rds"))
   
   print("starting lvq")
   modelLvq <- train(class~., data=groupfile, method="lvq", trControl=control)
@@ -84,7 +83,7 @@ classifygrouppreprop <- function(groupfile, control, expnum){
   return(caresults)
 }
 
-classifygrouppreproppca <- function(groupfile, control, expnum){
+classifygrouppca <- function(groupfile, control, expnum){
   colnames(groupfile)[1] <- "class"
   groupfile$class <- as.factor(groupfile$class)
   levels(groupfile$class) <- make.names(levels(factor(groupfile$class)))
@@ -182,22 +181,19 @@ classify3group <- function(groupfile, control, expnum){
 caalgresults <- classifygroup(groupalgsample, control, "alg")
 saveRDS(caalgresults, file="caalgresults.rds")
 
-ca2results <- classifygroup(group2, control,"group2")
-saveRDS(ca2results, file="ca2results.rds")
-
-ca2resultsprepctrlpca <- classifygrouppreproppca(group2, control,"group2prepctrlpca")
-saveRDS(ca2resultsprepctrlpca, file="ca2resultsprepctrlpca.rds")
+# ca2results <- classifygroup(group2, control,"group2")
+# saveRDS(ca2results, file="ca2results.rds")
+ca2resultsprepctrl <- classifygrouppreprop(group2, control,"group2prepctrl")
+saveRDS(ca2resultsprepctrl, file="ca2resultsprepctrl.rds")
 
 ca3results <- classifygroup(group3,control, "group3")
 saveRDS(ca3results, file="ca3results2.rds")
-ca3resultsprepctrl <- classifygrouppreprop(group3, control, "group3prepctrl")
-saveRDS(ca3resultsprepctrl, file="ca3resultsprepctrl.rds")
 
-# ca355algresults <- classifygroup(group355alg, control, "alg")
-# saveRDS(ca355algresults, file="ca355algresults.rds")
+ca355algresultsprepctrl <- classifygrouppreprop(groupalg355, control, "alg355prepctrl")
+saveRDS(ca355algresultsprepctrl, file="ca355algresultsprepctrl.rds")
 
 ca355resultsprepctrl <- classifygrouppreprop(group355, control, "355prepctrl")
-saveRDS(ca355resultsprepctrl, file="ca355resultsprepctrl.rds")
+saveRDS(ca355resultsprepctrl, file="ca355results2prepctrl.rds")
 
 
 
@@ -225,20 +221,30 @@ saveRDS(ca355resultsprepctrl, file="ca355resultsprepctrl.rds")
 
 cacoorpca2results <- classifygroup(groupcoor2pca, control,"groupcoor2pca")
 saveRDS(cacoorpca2results, file="cacoorpca2results2.rds")
-cacoorpca2resultsprep <- classifygrouppreprop(groupcoor2pca, control,"groupcoor2pcaprep")
-saveRDS(cacoorpca2resultsprep, file="cacoorpca2results2prep.rds")
-# 
-cacoorpca3resultsprepctrl <- classifygrouppreprop(groupcoor3pca, control,"groupcoor3pca")
-saveRDS(cacoorpca3resultsprepctrl, file="cacoorpca3resultsprepctrl.rds")
+cacoorpca2resultsprepctrl <- classifygrouppreprop(groupcoor2pca, control, "groupcoor2pcaprepctrl")
+saveRDS(cacoorpca2resultsprepctrl, file="cacoorpca2results2prep.rds")
+# cacoorpca2resultsprepctrlpca <- classifygrouppca(groupcoor2pca, control,"groupcoor2pcaprepctrlpca")
+cacoorpca2resultsctrl <- classifygroup(groupcoor2pca, control,"groupcoor2pca")
+
+cacoorpca2results <- resamples(list(NB=modelnb, LVQ=modelLvq, GBM=modelGbm, SVM=modelSvm,RF=modelrf))
+modelnb <- readRDS("modelnbgroupcoor2pca.rds")
+modelLvq <- readRDS("modellvqgroupcoor2pca.rds")
+modelGbm <- readRDS("modelgbmgroupcoor2pca.rds")
+modelSvm <- readRDS("modelsvmgroupcoor2pca.rds")
+modelrf <- readRDS("modelrfgroupcoor2pca.rds")
+
+cacoorpca3results <- classifygroup(groupcoor3pca, control,"groupcoor3pca")
+saveRDS(cacoorpca3results, file="cacoorpca3results2.rds")
+cacoorpca3resultsprepctrl <- classifygrouppreprop(groupcoor3pca, control,"groupcoor3pcaprepctrl")
 # 
 # cacoorpca4results <- classify4group(group4pca, control,"groupcoor4pca")
 # saveRDS(cacoorpca4results, file="cacoorpca4results.rds")
 # 
-cacoorpcaalg355resultsprepctrl <- classifygrouppreprop(coorgroup355alg, control,"groupcooralg355prepctrl")
-saveRDS(cacoorpcaalg355resultsprepctrl, file="cacoorpcaalg355resultsprepctrl.rds")
+# cacoorpcaalg355results <- classifygroup(coorgroup355alg, control,"groupcooralg355pca")
+# saveRDS(cacoorpcaalgresults, file="cacoorpcaalg355results.rds")
 
-cacoorpca355resultsprepctrl <- classifygrouppreprop(coorgroup355, control,"groupcoor355prepctrl")
-saveRDS(cacoorpca355resultsprepctrl, file="groupcoor355prepctrl.rds")
+cacoorpca355results <- classifygroup(coorgroup355, control,"groupcooralgpca")
+saveRDS(cacoorpca355results, file="cacoorpca355results2.rds")
 # 
 # cacoorpca1657results <- classifygroup(group1657pca, control,"groupcoor1657pca")
 # saveRDS(cacoorpca1657results, file="cacoorpca1657results.rds")

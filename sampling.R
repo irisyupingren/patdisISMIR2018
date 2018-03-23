@@ -42,8 +42,22 @@ non1657 <- non1657[,common]
 
 # newpat1657 <- bind_rows(alg1657, non1657, ran1657, X1657val , .id="id")
 newpat1657 <- bind_rows(alg1657, non1657, pat1657, .id="id")
-group2 <- bind_rows(non1657, pat1657, .id="id")
+group2nonpat <- bind_rows(non1657, pat1657, .id="id")
+group2algpat <- bind_rows(alg1657, pat1657, .id="id")
+group2nonalg <- bind_rows(non1657, alg1657, .id="id")
 group3 <- newpat1657
+
+group3allnon5 <- bind_rows(alg, non, pat1657, .id="id")
+group3allnon4 <- bind_rows(alg, non4, pat1657, .id="id")
+group3allnon3 <- bind_rows(alg, non3, pat1657, .id="id")
+group3allnon2 <- bind_rows(alg, non2, pat1657, .id="id")
+group3allnon1 <- bind_rows(alg, non1657, pat1657, .id="id")
+
+group3allnon5dedup <- bind_rows(unique(alg), unique(non), pat1657, .id="id")
+group3allnon4dedup <- bind_rows(unique(alg), unique(non4), pat1657, .id="id")
+group3allnon3dedup <- bind_rows(unique(alg), unique(non3), pat1657, .id="id")
+group3allnon2dedup <- bind_rows(unique(alg), unique(non2), pat1657, .id="id")
+group3allnon1dedup <- bind_rows(unique(alg), unique(non1657), pat1657, .id="id")
 
 # selepat1657 <- selepatjsym(newpat1657)
 # selepat1657 <- cbind(newpat1657$id, selepat1657)
@@ -54,5 +68,6 @@ selepat355 <- selectjsym(newpat355)
 groupalg355 <- selepat355
 
 saveRDS(selepat355, file="group355.rds")
+
 
 

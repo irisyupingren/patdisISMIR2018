@@ -1,0 +1,6 @@
+load("/Users/irisren/Dropbox/patdis4ISMIR2018/patdisISMIR2018/cmrfcoorgroup2algpatnewdata.rds")
+load("/Users/irisren/Dropbox/patdis4ISMIR2018/patdisISMIR2018/cmnb10.rds")
+load("/Users/irisren/Dropbox/patdis4ISMIR2018/patdisISMIR2018/cmlda10.rds")
+load("/Users/irisren/Dropbox/patdis4ISMIR2018/patdisISMIR2018/cmrf10.rds")
+load("/Users/irisren/Dropbox/patdis4ISMIR2018/patdisISMIR2018/cmlda10.rds")
+load("/Users/irisren/Dropbox/patdis4ISMIR2018/patdisISMIR2018/cmldanormal1657-1.rds")

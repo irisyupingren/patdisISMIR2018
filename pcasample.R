@@ -20,6 +20,7 @@ algcoor1657 <- sample_n(bind_rows(algcoor1657.1,algcoor1657.2,algcoor1657.3,algc
 algcoor1657$id <- NULL
 
 groupcoor2pca <- bind_rows(coornon, scores, .id="id")
+groupcooralgpat2pca <- bind_rows(algcoor1657, scores, .id="id")
 groupcoor3pca <- bind_rows(coornon, algcoor1657, scores, .id="id")
 # group3pca <- bind_rows(coornon, coorran, scores, .id="id")
 # group4pca <- bind_rows(algcoor1657, coornon, coorran, scores, .id="id")

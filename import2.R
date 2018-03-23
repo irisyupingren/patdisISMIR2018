@@ -5,6 +5,12 @@ non4 <- read_csv("Data/nonval4.csv")
 non5 <- read_csv("Data/nonval5.csv")
 non2 <- read_csv("Data/nonval2.csv")
 
+non1song <- read_csv("Data/non1song.csv")
+non2song <- read_csv("Data/non2song.csv")
+non3song <- read_csv("Data/non3song.csv")
+non4song <- read_csv("Data/non4song.csv")
+non5song <- read_csv("Data/non5song.csv")
+
 ran <- read_csv("Data/ranval.csv")
 ran3 <- read_csv("Data/ran2val.csv")
 ran4 <- read_csv("Data/ran4val.csv")

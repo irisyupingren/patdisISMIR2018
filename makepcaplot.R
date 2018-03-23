@@ -7,24 +7,26 @@ p1 <- ggplot(data = scores, alpha=0.1, col="black", aes(x = PC1, y = PC2, label=
   # geom_text(data = coorsir,  alpha = 0.1, size = 1, col="yellow", aes(x = PC1, y = PC2, label=rownames(coorsir))) +
   # geom_text(data = coorsip,  alpha = 0.1, size = 1, col="pink", aes(x = PC1, y = PC2, label=rownames(coorsip))) +
   # geom_text(data = coorsif1,  alpha = 0.1, size = 1, col="navy", aes(x = PC1, y = PC2, label=rownames(coorsif1))) +
-  geom_point(data = coormp,  alpha = 0.5, size = 1, col="blue", aes(x = PC1, y = PC2, label=rownames(coormp))) +
+  # geom_point(data = coormp,  alpha = 0.5, size = 1, col="blue", aes(x = PC1, y = PC2, label=rownames(coormp))) +
   # geom_text(data = coorsc,  alpha = 0.1, size = 1, col="orange", aes(x = PC1, y = PC2, label=rownames(coorsc))) +
-  geom_point(data = coorran,  alpha = 0.1, size = 1, col="red", aes(x = PC1, y = PC2, label=rownames(coorran))) +
+  # geom_point(data = coorran,  alpha = 0.1, size = 1, col="red", aes(x = PC1, y = PC2, label=rownames(coorran))) +
   geom_point(data = coornon,  alpha = 0.1, size = 1, col="green", aes(x = PC1, y = PC2, label=rownames(coornon))) +
+  geom_point(data = algcoor1657,  alpha = 0.1, size = 1, col="green", aes(x = PC1, y = PC2, label=rownames(coornon))) +
   geom_hline(yintercept = 0, colour = "gray65") +
   geom_vline(xintercept = 0, colour = "gray65") +
   geom_point(colour = "black", alpha = 0.1, size = 1) +
   theme(legend.position="bottom") +
   ggtitle("PCA of Ran.Non project onto the pca feature space of the annotations")
+print(p1)
 
 # dev.off()
 p2<- ggplot(data = scores, alpha=0.1, col="black", aes(x = PC1, y = PC2, label=rownames(scores), colour="Alg")) +
   geom_point(data = coorvm2,  alpha = 0.1, size = 1, col="blue", aes(x = PC1, y = PC2, label=rownames(coorvm2), colour="Alg")) +
   geom_point(data = coorvm,  alpha = 0.1, size = 1, col="green", aes(x = PC1, y = PC2, label=rownames(coorvm))) +
   # geom_text(data = coorvm2,  alpha = 0.1, size = 1, col="purple", aes(x = PC1, y = PC2, label=rownames(coorvm2))) +
-  geom_point(data = coorsir,  alpha = 0.1, size = 1, col="yellow", aes(x = PC1, y = PC2, label=rownames(coorsir))) +
+  # geom_point(data = coorsir,  alpha = 0.1, size = 1, col="yellow", aes(x = PC1, y = PC2, label=rownames(coorsir))) +
   # geom_text(data = coorsip,  alpha = 0.1, size = 1, col="pink", aes(x = PC1, y = PC2, label=rownames(coorsip))) +
-  geom_point(data = coorsif1,  alpha = 0.1, size = 1, col="navy", aes(x = PC1, y = PC2, label=rownames(coorsif1))) +
+  # geom_point(data = coorsif1,  alpha = 0.1, size = 1, col="navy", aes(x = PC1, y = PC2, label=rownames(coorsif1))) +
   # geom_text(data = coormp,  alpha = 0.5, size = 1, col="blue", aes(x = PC1, y = PC2, label=rownames(coormp))) +
   # geom_text(data = coorsc,  alpha = 0.1, size = 1, col="orange", aes(x = PC1, y = PC2, label=rownames(coorsc))) +
   # geom_point(data = coorran,  alpha = 0.1, size = 1, col="red", aes(x = PC1, y = PC2, label=rownames(coorran))) +
@@ -37,7 +39,7 @@ p2<- ggplot(data = scores, alpha=0.1, col="black", aes(x = PC1, y = PC2, label=r
   theme(axis.title.y = element_text(size = 10)) + 
   geom_point(colour = "black", alpha = 0.1, size = 1) +
   ggtitle("PCA of 3 algorithms project onto the pca space of annotation")
-# print(p2)
+print(p2)
 
 library(dplyr)
 library(plyr)
@@ -45,7 +47,7 @@ df <- bind_rows(scores, coornon, coormp, coorvm, coorvm2, coorsif1, coorsip, coo
 maps <- revalue(df$id, 
         c("1"="Anno", 
           "2"="Non",
-          "3"="MP",
+          "3"="SC",
           "4"="VM",
           "5"="VM2",
           "6"="SIAF1",
@@ -79,7 +81,7 @@ p2 <- ggplot(df2, aes(x=PC1, y=PC2, shape=maps, colour=maps)) +
   theme(legend.title=element_blank()) +
   theme(legend.text=element_text(size=13))
 
-df3 <- df[df$maps== "MP" | df$maps== "Anno",]
+df3 <- df[df$maps== "SC" | df$maps== "Anno",]
 p3 <- ggplot(df3, aes(x=PC1, y=PC2, shape=maps, colour=maps)) + 
   geom_point(position=position_jitter(w=0.04,h=0.02), size=1.5,  alpha = 0.5) +
   theme_bw()+

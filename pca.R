@@ -2,7 +2,7 @@ pca355alg = prcomp(group355alg[2:66], scale. = T)
 pca1657 = prcomp(group4[2:66], scale. = T)
 pca355 = prcomp(group355[2:66], scale. = T)
 pca2 = prcomp(group2[2:64], scale. =T)
-pca3 = prcomp(group3[2:65], scale. =T)
+pca3 = prcomp(group3[2:64], scale. =T)
 
 pca355algl = as.data.frame(cbind(group355alg$id, pca355alg$x) )
 pca1657l = as.data.frame(cbind(selepat1657$`newpat1657$id`, pca1657$x) )
@@ -16,8 +16,9 @@ pcaall = prcomp(groupall[2:66], scale. = T)
 pca4 = prcomp(group4[2:67], scale. = T)
 # pca300 = prcomp(group300[2:66], scale. = T)
 # pca10 = prcomp(group10[2:66], scale. = T)
+pca3 = prcomp(group3[2:64], scale. = T)
  
-# library(factoextra)
+library(factoextra)
 # fviz_contrib(pcajnon, choice = "var", axes = 1, top = 10)
 # fviz_contrib(pcajnon, choice = "var", axes = 2, top = 10)
 # fviz_pca_biplot(pcajnon, label="var", habillage = groupnon[,1], addEllipses = T, ellipse.level=0.95)
@@ -35,6 +36,10 @@ pca4 = prcomp(group4[2:67], scale. = T)
 # 
 # fviz_pca_ind(pca4, label="var", habillage = group4[,1])
 # fviz_pca_ind(pca10, label="var", habillage = group10[,1])
+
+fviz_pca_biplot(pca3, label="var", habillage = pca3l[,1], addEllipses = T, ellipse.level=0.95)
+fviz_pca_ind(pca3, label="var", habillage = group3$id)
+
 
 X1657val4pca = selepatjsym(X1657val)
 vm24pca = selepatjsym(vm2)
